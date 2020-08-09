@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+
+
+import 'package:app_udemy_1/src/User/ui/pages/login_page.dart';
+import 'package:app_udemy_1/src/User/ui/pages/home_page.dart';
  
 void main() => runApp(MyApp());
  
@@ -6,17 +10,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Material App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My app '),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('NUNCA PARES DE APRENDER'),
-          ),
-        ),
-      ),
+      initialRoute: 'login',
+      routes: {
+        'login': (BuildContext context) => LoginPage(),
+        'home': (BuildContext context) => HomePage()
+      },
     );
   }
 }
