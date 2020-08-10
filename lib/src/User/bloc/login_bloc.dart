@@ -1,13 +1,14 @@
 
 
 import 'dart:async';
+import 'package:rxdart/rxdart.dart';
 
 import 'package:app_udemy_1/src/User/bloc/validators.dart';
 
 class LoginBloc with Validators {
 
-  final _emailController = StreamController<String>.broadcast();
-  final _passwordController = StreamController<String>.broadcast();
+  final _emailController = BehaviorSubject<String>();
+  final _passwordController = BehaviorSubject<String>();
 
   // Insertar valores al strem
   Function(String) get changeEmail => _emailController.sink.add;
@@ -16,6 +17,8 @@ class LoginBloc with Validators {
   //Get info
   Stream<String> get emailStream => _emailController.stream.transform(validateEmail);
   Stream<String> get passwordStream => _passwordController.stream.transform( validatePassword );
+
+  Stream<bool> get formValidStream => Rx.combineLatest2(emailStream, passwordStream, (a, b) => true);
 
   dispose(){
     _emailController?.close();

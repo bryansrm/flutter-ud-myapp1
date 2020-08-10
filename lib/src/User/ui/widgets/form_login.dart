@@ -131,18 +131,26 @@ class FormLogin extends StatelessWidget {
   }
 
   Widget _loginButton(){
-    return RaisedButton(
-      child: Container(
-        padding: EdgeInsets.symmetric( horizontal: 80.0, vertical: 15.0),
-        child: Text('Ingresar'),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0)
-      ),
-      elevation: 0.0,
-      color: Colors.deepPurple,
-      textColor: Colors.white,
-      onPressed: () {}
+    return StreamBuilder(
+      stream: bloc.formValidStream,
+      builder: ( _, AsyncSnapshot snapshot){
+        return RaisedButton(
+          child: Container(
+            padding: EdgeInsets.symmetric( horizontal: 80.0, vertical: 15.0),
+            child: Text('Ingresar'),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0)
+          ),
+          elevation: 0.0,
+          color: Colors.deepPurple,
+          textColor: Colors.white,
+          onPressed: snapshot.hasData ? () {
+              print('boton open');
+          } : null
+        );
+      },
     );
+    
   }
 }
