@@ -8,15 +8,18 @@ class FormLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    return Container(
-      margin: EdgeInsets.only(top: size.height * .12, right: 30.0, left: 30.0),
-      child: Column(
-        children: [
-          _pinUser(),
-          _boxForm(),
-          SizedBox(height: 30.0,),
-          Text('¿Olvidaste tu contraseña?')
-        ],
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.only(top: size.height * .12, right: 30.0, left: 30.0),
+        child: Column(
+          children: [
+            _pinUser(),
+            _boxForm(),
+            SizedBox(height: 30.0,),
+            Text('¿Olvidaste tu contraseña?'),
+            SizedBox(height: 30.0,),
+          ],
+        ),
       ),
     );
   }
@@ -32,6 +35,19 @@ class FormLogin extends StatelessWidget {
       ),
     );
   }
+
+  // Widget loginForm(){
+  //   return SingleChildScrollView(
+  //     child: Column(
+  //       children: [
+  //         _boxForm(),
+  //         SizedBox(height: 30.0,),
+  //         Text('¿Olvidaste tu contraseña?'),
+  //         SizedBox(height: 30.0,),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _boxForm(){
     return Container(
