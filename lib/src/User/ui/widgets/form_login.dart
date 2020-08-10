@@ -99,7 +99,8 @@ class FormLogin extends StatelessWidget {
               icon: Icon( Icons.alternate_email, color: Colors.deepPurple ),
               hintText: 'ejemplo@correo.com',
               labelText: 'Correo electrónico',
-              counterText: snapshot.data
+              counterText: snapshot.data,
+              errorText: snapshot.error
             ),
             onChanged: bloc.changeEmail
           ),
@@ -119,7 +120,8 @@ class FormLogin extends StatelessWidget {
             decoration: InputDecoration(
               icon: Icon( Icons.lock_outline, color: Colors.deepPurple ),
               labelText: 'Contraseña',
-              counterText: snapshot.data
+              counterText: snapshot.data,
+              errorText: snapshot.error
             ),
             onChanged: bloc.changePassword,
           ),
