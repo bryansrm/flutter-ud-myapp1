@@ -40,19 +40,6 @@ class FormLogin extends StatelessWidget {
     );
   }
 
-  // Widget loginForm(){
-  //   return SingleChildScrollView(
-  //     child: Column(
-  //       children: [
-  //         _boxForm(),
-  //         SizedBox(height: 30.0,),
-  //         Text('¿Olvidaste tu contraseña?'),
-  //         SizedBox(height: 30.0,),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _boxForm(){
     return Container(
       alignment: Alignment.center,
@@ -133,7 +120,7 @@ class FormLogin extends StatelessWidget {
   Widget _loginButton(){
     return StreamBuilder(
       stream: bloc.formValidStream,
-      builder: ( _, AsyncSnapshot snapshot){
+      builder: ( BuildContext context, AsyncSnapshot snapshot){
         return RaisedButton(
           child: Container(
             padding: EdgeInsets.symmetric( horizontal: 80.0, vertical: 15.0),
@@ -145,12 +132,16 @@ class FormLogin extends StatelessWidget {
           elevation: 0.0,
           color: Colors.deepPurple,
           textColor: Colors.white,
-          onPressed: snapshot.hasData ? () {
-              print('boton open');
-          } : null
+          onPressed: snapshot.hasData ? () => _login(context) : null
         );
       },
     );
     
+  }
+
+  _login(BuildContext context){
+    print('email: ${bloc.email}');
+    print('password: ${bloc.password}');
+    Navigator.pushNamed(context, 'home');
   }
 }

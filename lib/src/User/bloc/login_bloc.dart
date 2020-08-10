@@ -20,6 +20,10 @@ class LoginBloc with Validators {
 
   Stream<bool> get formValidStream => Rx.combineLatest2(emailStream, passwordStream, (a, b) => true);
 
+  // get last value streams
+  String get email => _emailController.value;
+  String get password => _passwordController.value;
+
   dispose(){
     _emailController?.close();
     _passwordController?.close();
