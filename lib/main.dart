@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:app_udemy_1/src/User/ui/pages/login_page.dart';
 import 'package:app_udemy_1/src/User/ui/pages/home_page.dart';
+import 'package:app_udemy_1/src/Producto/ui/pages/product_page.dart';
  
 import 'package:app_udemy_1/src/User/bloc/provider.dart';
 
@@ -17,10 +18,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primaryColor: Colors.deepPurple),
         title: 'Material App',
-        initialRoute: 'login',
+        initialRoute: 'home',
         routes: {
           'login': (BuildContext context) => LoginPage(),
-          'home': (BuildContext context) => HomePage()
+          'home': (BuildContext context) => HomePage(),
+          'product': (BuildContext context) => ProductPage(),
         },
       ),
     );
