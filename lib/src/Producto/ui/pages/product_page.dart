@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:app_udemy_1/src/Util/global_styles.dart' as globalstyles;
+import 'package:app_udemy_1/src/Util/validations.dart' as validations;
 
 class ProductPage extends StatelessWidget {
+
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +33,7 @@ class ProductPage extends StatelessWidget {
       child: Column(
         children: [
           Form(
+            key: formKey,
             child: Column(
               children: [
                 _inputProduct(),
@@ -58,12 +63,24 @@ class ProductPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: 'Price'
       ),
+      validator: ( value ){
+
+        if( value.isEmpty ){
+          return 'The price is required';
+        }
+
+        if( validations.isNumeric(value) ){
+          return  null;
+        } else {
+          return 'You must type only numbers';
+        }
+      },
     );
   }
 
   Widget _submitButton(){
     return RaisedButton.icon(
-      onPressed: (){}, 
+      onPressed: () => _submitFunction(), 
       color: globalstyles.primaryColor,
       textColor: Colors.white,
       icon: Icon( Icons.save ), 
@@ -72,5 +89,10 @@ class ProductPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0)
       ),
     );
+  }
+
+  void _submitFunction(){
+    if( !formKey.currentState.validate() ) return null;
+    print('avanzar');
   }
 }
