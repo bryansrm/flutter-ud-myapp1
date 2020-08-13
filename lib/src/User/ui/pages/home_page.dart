@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('email: ${bloc.email}'),
             Text('password: ${bloc.password}')
