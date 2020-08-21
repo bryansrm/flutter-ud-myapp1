@@ -1,4 +1,5 @@
 import 'package:app_udemy_1/src/models/producto_model.dart';
+import 'package:app_udemy_1/src/providers/productos_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_udemy_1/src/Util/global_styles.dart' as globalstyles;
@@ -14,6 +15,7 @@ class _ProductPageState extends State<ProductPage> {
   final formKey = GlobalKey<FormState>();
 
   ProductoModel producto = new ProductoModel();
+  ProductosProvider productosProvider = new ProductosProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -123,5 +125,8 @@ class _ProductPageState extends State<ProductPage> {
     print('avanzar');
     print(producto.titulo);
     print(producto.valor);
+
+    productosProvider.createProduct(producto);
+    
   }
 }
