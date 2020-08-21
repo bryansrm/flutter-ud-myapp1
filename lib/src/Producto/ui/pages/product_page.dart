@@ -7,6 +7,10 @@ import 'package:app_udemy_1/src/Util/validations.dart' as validations;
 
 class ProductPage extends StatefulWidget {
 
+  final ProductoModel product;
+
+  const ProductPage({Key key, this.product}) : super(key: key);
+
   @override
   _ProductPageState createState() => _ProductPageState();
 }
@@ -17,8 +21,14 @@ class _ProductPageState extends State<ProductPage> {
   ProductoModel producto = new ProductoModel();
   ProductosProvider productosProvider = new ProductosProvider();
 
+
   @override
   Widget build(BuildContext context) {
+
+    if( widget.product != null ){
+      producto = widget.product;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Product page'),
@@ -127,6 +137,6 @@ class _ProductPageState extends State<ProductPage> {
     print(producto.valor);
 
     productosProvider.createProduct(producto);
-    
+
   }
 }

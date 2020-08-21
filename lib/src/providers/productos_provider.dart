@@ -28,10 +28,26 @@ class ProductosProvider {
     final resp = await http.get(url);
     final decodedData = json.decode(resp.body);
 
-    print(decodedData);
+    if( decodedData == null ) return [];
 
-    return [];
+    List<ProductoModel> listProducts = [];
+    decodedData.forEach( (id, product) {
+      final objProduct = ProductoModel.fromJson(product);
+      objProduct.id = id;
 
+      listProducts.add(objProduct);
+    });
+
+    return listProducts;
+  }
+
+  Future<bool> deleteProduct(String id) async {
+    final url = '$_url/ud_products/$id.json';
+
+    final resp = await http.delete(url);
+
+    print(resp.body);
+    return true;
   }
 
 }

@@ -1,3 +1,4 @@
+import 'package:app_udemy_1/src/Producto/ui/pages/product_page.dart';
 import 'package:flutter/material.dart';
 
 
@@ -33,12 +34,38 @@ class HomePage extends StatelessWidget {
       future: productosProvider.loadListProducts(),
       builder: ( _, AsyncSnapshot<List<ProductoModel>> snapshot ){
        if( snapshot.hasData ){
-         return Container();
+
+         final products = snapshot.data;
+         print('lenght ${products.length}');
+
+         return ListView.builder(
+           itemCount: products.length,
+           itemBuilder: (context, index) => _createItem( context, products[index] ),
+         );
        } else {
          return CircularProgressIndicator();
        }
       },
     );
 
+  }
+
+  Widget _createItem(BuildContext context, ProductoModel product){
+    return Dismissible(
+      key: UniqueKey(),
+      background: Container(
+        color: Colors.red[300],
+      ),
+      onDismissed: (direction) {
+        productosProvider.deleteProduct(product.id);
+      },
+      child: ListTile(
+        title: Text(
+          product.titulo
+        ),
+        subtitle: Text(product.valor.toString()),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage(product: product,))),
+      ),
+    );
   }
 }
