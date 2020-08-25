@@ -42,11 +42,11 @@ class _ProductPageState extends State<ProductPage> {
         actions: [
           IconButton( 
             icon: Icon( Icons.image ),
-            onPressed: () => _selectPhoto(),
+            onPressed: () => _processPhoto(ImageSource.gallery),
            ),
           IconButton( 
             icon: Icon( Icons.camera_alt ),
-            onPressed: _takePhoto,
+            onPressed: () => _processPhoto(ImageSource.camera),
            ),
         ],
       ),
@@ -178,16 +178,20 @@ class _ProductPageState extends State<ProductPage> {
     }
   }
 
-  _selectPhoto() async {
+  _processPhoto(ImageSource source) async {
     final _picker = ImagePicker();
 
     final pickedFile = await _picker.getImage(
-      source: ImageSource.gallery
+      source: source
     );
 
     photo = File(pickedFile.path);
 
-    setState(() { });
+  //   if(photo != null){
+ 
+  //  }
+
+    setState(() { }); 
   }
 
   _takePhoto() {}
