@@ -41,6 +41,17 @@ class ProductosProvider {
     return listProducts;
   }
 
+  Future<bool> updateProduct( ProductoModel product ) async {
+    final url = '$_url/ud_products/${product.id}.json';
+
+    final resp = await http.put(url, body: productoModelToJson(product));
+
+    // print(decodedData);
+
+    return true;
+
+  }
+
   Future<bool> deleteProduct(String id) async {
     final url = '$_url/ud_products/$id.json';
 

@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:app_udemy_1/src/models/producto_model.dart';
 import 'package:app_udemy_1/src/providers/productos_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_udemy_1/src/Util/global_styles.dart' as globalstyles;
 import 'package:app_udemy_1/src/Util/validations.dart' as validations;
+import 'package:image_picker/image_picker.dart';
 
 class ProductPage extends StatefulWidget {
 
@@ -16,10 +19,13 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   ProductoModel producto = new ProductoModel();
   ProductosProvider productosProvider = new ProductosProvider();
+  File photo;
 
 
   @override
@@ -30,16 +36,17 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text('Product page'),
         actions: [
           IconButton( 
             icon: Icon( Icons.image ),
-            onPressed: (){},
+            onPressed: () => _selectPhoto(),
            ),
           IconButton( 
             icon: Icon( Icons.camera_alt ),
-            onPressed: (){},
+            onPressed: _takePhoto,
            ),
         ],
       ),
@@ -56,6 +63,7 @@ class _ProductPageState extends State<ProductPage> {
             key: formKey,
             child: Column(
               children: [
+                _showPhoto(),
                 _inputProduct(),
                 _inputPrice(),
                 _createAvailable(),
@@ -136,7 +144,53 @@ class _ProductPageState extends State<ProductPage> {
     print(producto.titulo);
     print(producto.valor);
 
-    productosProvider.createProduct(producto);
+    if( widget.product != null ){
+      productosProvider.updateProduct(producto);
+    } else {
+       productosProvider.createProduct(producto);
+    }
+
+    _showSnackbar('Se aguardo con éxito');
 
   }
+
+  void _showSnackbar(String message){
+    final snackbar = SnackBar(
+      content: Text(message),
+      duration: Duration(milliseconds: 2000),
+    );
+
+    scaffoldKey.currentState.showSnackBar( snackbar );
+  }
+
+  Widget _showPhoto() {
+    if( producto.fotoUrl != null ) {
+      // TODO: mensaje por hacer
+      return Container();
+    } else {
+
+      return Image(
+        image: AssetImage( photo?.path ?? 'assets/no-image.png'),
+        height: 300.0,
+        fit: BoxFit.cover,
+      );
+
+    }
+  }
+
+  _selectPhoto() async {
+    final _picker = ImagePicker();
+
+    final pickedFile = await _picker.getImage(
+      source: ImageSource.gallery
+    );
+
+    photo = File(pickedFile.path);
+
+    setState(() { });
+  }
+
+  _takePhoto() {}
+    
+  
 }
