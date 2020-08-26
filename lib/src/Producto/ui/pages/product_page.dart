@@ -1,12 +1,16 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:app_udemy_1/src/models/producto_model.dart';
-import 'package:app_udemy_1/src/providers/productos_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime_type/mime_type.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 import 'package:app_udemy_1/src/Util/global_styles.dart' as globalstyles;
 import 'package:app_udemy_1/src/Util/validations.dart' as validations;
-import 'package:image_picker/image_picker.dart';
+import 'package:app_udemy_1/src/models/producto_model.dart';
+import 'package:app_udemy_1/src/providers/productos_provider.dart';
 
 class ProductPage extends StatefulWidget {
 
@@ -136,13 +140,17 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  void _submitFunction(){
+  void _submitFunction() async {
     if( !formKey.currentState.validate() ) return null;
 
     formKey.currentState.save();
     print('avanzar');
     print(producto.titulo);
     print(producto.valor);
+
+    if( photo != null ) {
+      producto.fotoUrl = await loadImage(photo);
+    }
 
     if( widget.product != null ){
       productosProvider.updateProduct(producto);
@@ -194,7 +202,32 @@ class _ProductPageState extends State<ProductPage> {
     setState(() { }); 
   }
 
-  _takePhoto() {}
+  Future<String> loadImage(File image) async {
+    final url = Uri.parse('https://api.cloudinary.com/v1_1/digjflsj9/image/upload?upload_preset=wt7w1iot');
+    final mimeType = mime(image.path).split('/');
+
+    final imageUploadRequest = http.MultipartRequest('POST', url);
+
+    final file = await http.MultipartFile.fromPath('file', image.path, contentType: MediaType( mimeType[0], mimeType[1] ));
+
+    imageUploadRequest.files.add(file);
+
+    final streamResponse = await imageUploadRequest.send();
+
+    final resp = await http.Response.fromStream(streamResponse);
+
+    if( resp.statusCode != 200 && resp.statusCode != 201 ){
+      print('ocurrio un error');
+      print(resp.body);
+      return null;
+    }
+
+    final respData = json.decode(resp.body);
+    print(respData);
+
+    return respData['secure_url'];
+    
+  }
     
   
 }
