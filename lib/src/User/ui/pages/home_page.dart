@@ -39,6 +39,7 @@ class HomePage extends StatelessWidget {
          print('lenght ${products.length}');
 
          return ListView.builder(
+           physics: BouncingScrollPhysics(),
            itemCount: products.length,
            itemBuilder: (context, index) => _createItem( context, products[index] ),
          );
@@ -59,13 +60,38 @@ class HomePage extends StatelessWidget {
       onDismissed: (direction) {
         productosProvider.deleteProduct(product.id);
       },
-      child: ListTile(
-        title: Text(
-          product.titulo
+      child: Card(
+        child: Column(
+          children: [
+
+            Container(
+              height: 250,
+              width: double.infinity,
+              child: product.fotoUrl != null
+                ? FadeInImage(
+                  image: NetworkImage(product.fotoUrl),
+                  placeholder: AssetImage('assets/jar-loading.gif'),
+                  fit: BoxFit.cover,
+                )
+                : Image( 
+                    image: AssetImage('assets/no-image.png'),
+                    fit: BoxFit.cover,
+                  ),
+            ),
+
+            ListTile(
+              title: Text(
+                product.titulo
+              ),
+              subtitle: Text(product.valor.toString()),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage(product: product,))),
+            ),
+
+          ],
         ),
-        subtitle: Text(product.valor.toString()),
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProductPage(product: product,))),
-      ),
+      )
     );
+
+    
   }
 }

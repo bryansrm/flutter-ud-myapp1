@@ -173,8 +173,15 @@ class _ProductPageState extends State<ProductPage> {
 
   Widget _showPhoto() {
     if( producto.fotoUrl != null ) {
-      // TODO: mensaje por hacer
-      return Container();
+      
+      return FadeInImage(
+        image: NetworkImage(producto.fotoUrl),
+        placeholder: AssetImage('assets/jar-loading.gif'),
+        height: 300,
+        width: double.infinity,
+        fit: BoxFit.cover,
+      );
+
     } else {
 
       return Image(
@@ -195,9 +202,9 @@ class _ProductPageState extends State<ProductPage> {
 
     photo = File(pickedFile.path);
 
-  //   if(photo != null){
- 
-  //  }
+    if(photo != null){
+      producto.fotoUrl = null;
+   }
 
     setState(() { }); 
   }
